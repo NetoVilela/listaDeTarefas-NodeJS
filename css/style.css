@@ -1,0 +1,23 @@
+#welcome{
+    font-family: 'Times New Roman', Times, serif;
+}
+a{
+    color: white;
+    margin-right: 20px;
+    font-size: 1.1em;
+}
+a:hover{
+    transition: 0.2s;
+    color: white;
+    opacity: 0.8;
+}
+#lista{
+    margin-top: 17%;
+}
+.jumbotron{
+    margin-top: 6%;
+    background: white;
+}
+footer{
+    margin-top: 20%;
+}
