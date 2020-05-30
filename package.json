@@ -1,0 +1,25 @@
+{
+  "name": "listadetarefas-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NetoVilela/listaDeTarefas-NodeJS.git"
+  },
+  "author": "Neto Vilela",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NetoVilela/listaDeTarefas-NodeJS/issues"
+  },
+  "homepage": "https://github.com/NetoVilela/listaDeTarefas-NodeJS#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
+    "mongoose": "^5.9.16"
+  }
+}
