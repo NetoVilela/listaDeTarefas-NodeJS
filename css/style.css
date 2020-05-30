@@ -21,3 +21,9 @@ a:hover{
 footer{
     margin-top: 20%;
 }
+#tarefas{
+    border: solid 1px red;
+    border-radius: 5px;
+    height: 30em;
+    overflow: auto;
+}
