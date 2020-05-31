@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
-const userRouter = require('./routes/usuarios');
-const defaultRouter = require('./routes/padroes');
+const tarefaRouter = require('./routes/tarefas');
+const usuarioRouter = require('./routes/usuarios');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const mongoose = require('mongoose');
+const passport = require('passport');
+
+require('./config/auth')(passport);
+
 
 //Sessão
     app.use(session({
@@ -15,6 +19,10 @@ const mongoose = require('mongoose');
         saveUninitialized: true
     }));
 
+//Passport
+    app.use(passport.initialize());
+    app.use(passport.session());
+
 //Flash
     app.use(flash());
 
@@ -22,6 +30,8 @@ const mongoose = require('mongoose');
     app.use((req,res,next)=>{
         res.locals.success_msg=req.flash("success_msg");
         res.locals.error_msg=req.flash("error_msg");
+        res.locals.error=req.flash("error");
+        res.locals.user=req.user || null;//Responsável por armazenar os dados do usuário logado
         next();
     });
 
@@ -43,8 +53,8 @@ const mongoose = require('mongoose');
 
 
 //Rotas
-    app.use('/',defaultRouter);
-    app.use('/usuarios',userRouter)
+    app.use('/',usuarioRouter);
+    app.use('/tarefas',tarefaRouter)
 
 
 app.listen(8081,()=>{

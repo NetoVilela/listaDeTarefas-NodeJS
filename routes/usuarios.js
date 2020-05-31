@@ -1,120 +1,123 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
-require('../models/Tarefa');
-const Tarefa = mongoose.model('tarefas');
+require('../models/Usuario');
+const Usuario = mongoose.model('usuarios');
 
-//* INÍCIO Criar nova tarefa
-    router.post('/addTarefa',(req,res)=>{
-        var erros=[];
 
-        if(req.body.descricao.length<4){
-            erros.push({texto: "Tarefa muito pequena. Digite uma tarefa com no mínimo 4 letras."});
-        }
-        if(erros.length>0){
-            res.render('usuarios/tarefas',{erros: erros});
-        }else{
-                //Bloco para criar uma nova tarefa
-            const novaTarefa = {descricao: req.body.descricao};
-            new Tarefa(novaTarefa).save().then(()=>{
-                req.flash("success_msg","Tarefa criada com sucesso!");
-                res.redirect('/usuarios/tarefas');
-            }).catch((error)=>{
-                req.flash("error_msg","Não foi possível criar a tarefa");
-                res.redirect('/usuarios/tarefas');
-            });
+router.get('/',(req,res)=>{
+    res.render('index');
+});
 
-        }
-    });
-//* FIM INÍCIO Criar nova tarefa
+//* INÍCIO Registro de Usuários
+router.get('/register',(req,res)=>{
+    res.render('usuarios/register');
+});
 
-//* INÍCIO Lista de tarefas
-    router.get('/tarefas',(req,res)=>{
-        
-        Tarefa.find().lean().then((tarefas)=>{
-            Tarefa.find({feita: false}).lean().then((tarefasPendentes)=>{
-                res.render('usuarios/tarefas',{tarefas, tarefasPendentes});    
-            }).catch((error)=>{
-                req.flash("error_msg","Não foi possível encontrar as tarefas pendentes");
-                res.redirect('/');
-            });
+router.post('/register',(req,res)=>{
+    var erros=[];
+
+    if(!req.body.nome || typeof req.body.nome == undefined){
+        erros.push({texto: "Nome inválido. Tente outro"});
+    }
+    if(!req.body.email || typeof req.body.email == undefined){
+        erros.push({texto: "Email inválido. Tente outro"});
+    }
+    if(!req.body.senha || typeof req.body.senha == undefined){
+        erros.push({texto: "Senha inválido. Tente outro"});
+    }
+    if(req.body.senha.length <4){
+        erros.push({texto: "Senha muito curta. Use uma senha com no mínimo 4 caracteres"});
+    }
+    if(req.body.senha != req.body.senha2){
+        erros.push({texto: "As senhas são diferentes. Tente novamente."});
+    }
+
+    if(erros.length>0){
+        res.render("usuarios/register",{erros:erros});
+    }else{
+
+        Usuario.findOne({email: req.body.email}).then((usuario)=>{
             
+            if(usuario){
+                req.flash("error_msg","Esse email já está sendo usado por outro usuário.");
+                res.redirect('/register');
+            }else{
+                    //Armazeno o novo usuário na constante
+                const novoUsuario = new Usuario({
+                    nome: req.body.nome,
+                    email: req.body.email,
+                    senha: req.body.senha
+                });
+                    //Encriptando a senha
+                bcrypt.genSalt(10, (erro, salt)=>{
+
+                    bcrypt.hash(novoUsuario.senha, salt, (erro, hash)=>{
+
+                        if(erro){
+                            req.flash("error_msg","Houve um erro durante o cadastrado do usuário.");
+                            res.redirect('/register');
+                        }else{
+                                //O hash foi gerado e passado na função
+                            novoUsuario.senha = hash;
+                                //Salva o usuário
+                            novoUsuario.save().then(()=>{
+
+                                req.flash("success_msg","Usuário criado com sucesso");
+                                res.redirect('/login');
+
+                            }).catch((error)=>{
+
+                                req.flash("error_msg","Houve um erro ao criar o usuário, tente novamente.");
+                                res.redirect('/register');
+                                
+                            });
+                        }
+
+                    })
+
+                });
+
+
+            }
+
         }).catch((error)=>{
-            req.flash('error_msg',"Não foi possível listar suas tarefas.");
+            req.flash("error_msg","Houve um erro interno.")
             res.redirect('/');
         });
 
+    }
+    
+
+});
+
+//* FIM Registro de Usuários
+
+//* INÍCIO Login do Usuário
+    router.get('/login',(req,res)=>{
+        res.render("usuarios/login");
+    });
+
+    router.post('/login',(req,res,next)=>{
         
-    });
-//* FIM Lista de tarefas
+        passport.authenticate("local",{
+            successRedirect: '/',
+            failureRedirect: '/login',
+            failureFlash: true    //Habilitando as mensagens flash
+        })(req,res,next);
 
-//*INÍCIO Remover Tarefa
-    router.get('/remover/:id',(req,res)=>{
-        Tarefa.deleteOne({_id: req.params.id}).then(()=>{
-            req.flash("success_msg","Tarefa removida com sucesso!");
-            res.redirect('/usuarios/tarefas');
-        }).catch((error)=>{
-            req.flash("error_msg","Não foi possível remover a tarefa que possui esse ID.");
-            res.redirect('/usuarios/tarefas');
-        });
-    });
-//*FIM Remover Tarefa
+    })
+//* FIM Login do Usuário
 
-//*INÍCIO Editar Tarefa
-    router.get('/editar/:id',(req,res)=>{
-
-        Tarefa.findOne({_id: req.params.id}).lean().then((tarefa)=>{
-            res.render('usuarios/editTarefa',{tarefa:tarefa});
-        }).catch((error)=>{
-            req.flash('error_msg',"Não foi possível editar essa tarefa.");
-            res.redirect('/usuarios/tarefas');
-        });
-
-    });
-    router.post('/editar',(req,res)=>{
-
-        Tarefa.findOne({_id: req.body.id}).then((tarefa)=>{
-            tarefa.descricao= req.body.descricao
-
-            tarefa.save().then(()=>{
-                req.flash("success_msg","Tarefa editada com sucesso!");
-                res.redirect('/usuarios/tarefas');
-            }).catch((error)=>{
-                req.flash("error_msg","Não foi possível salvar a alteração da tarefa.");
-                res.redirect('/usuarios/tarefas');
-            });
-
-        }).catch((error)=>{
-            req.flash("error_msg","Não foi possível editar sua tarefa.");
-            res.redirect('/usuarios/tarefas');
-        });
-
-    });
-//*FIM Editar Tarefa
-
-//*INÍCIO Check Tarefa
-    router.get("/check/:id",(req,res)=>{
-
-        Tarefa.findOne({_id: req.params.id}).then((tarefa)=>{
-            tarefa.feita = true;
-
-            tarefa.save().then(()=>{
-                req.flash("success_msg","Parabéns por essa tarefa!");
-                res.redirect('/usuarios/tarefas');
-            }).catch((error)=>{
-                req.flash("error_msg","Infelizmente não foi possível salvar a tarefa realizada.");
-                res.redirect("/usuarios/tarefas");
-            });
-
-        }).catch((error)=>{
-                req.flash("error_msg","Não foi possível dar check nessa tarefa.")
-                res.redirect("/usuarios/tarefas");
-        });
-
-    });
-//*FIM Check Tarefa
-
-
+//* INÍCIO Logout do Usuário
+    router.get('/logout',(req,res)=>{
+        req.logout();
+        req.flash("success_msg","Deslogado com sucesso!");
+        res.redirect('/');
+    })
+//* FIM Logout do Usuário
 
 module.exports = router;

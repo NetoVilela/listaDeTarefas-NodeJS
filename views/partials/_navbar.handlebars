@@ -13,14 +13,25 @@
                         <a href="/" class="nav-link">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/usuarios/tarefas" class="nav-link">Tarefas</a>
+                        <a href="/tarefas/tarefas" class="nav-link">Tarefas</a>
                     </li>   
+
+                    {{#if user}}<!-- Esse "user" é uma variável global-->
+
                     <li class="nav-item">
-                        <a href="/login" class="nav-link">Entrar</a>
-                    </li> 
-                    <li class="nav-item">
-                        <a href="/register" class="nav-link">Cadastrar</a>
-                    </li>       
+                        <a href="/logout" class="nav-link">Sair</a>
+                    </li>
+
+                    {{else}}
+                        <li class="nav-item">
+                            <a href="/login" class="nav-link">Entrar</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="/register" class="nav-link">Cadastrar-se</a>
+                        </li>       
+                    {{/if}}
+
+                    
                 </ul>
     
             </div>
