@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row justify-content-center"><!--Linha-->
+
+            <form action="/usuarios/editar" method="POST" class="border col-md-8 rounded p-3 bg-light mt-5">
+                <h1 class="text-center">Edite a tarefa</h1>
+                <hr>
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <input type="hidden" name="id" value="{{tarefa._id}}">
+                    <input type="text" class="form-control border border-dark rounded" name="descricao" id="descricao" placeholder="Descreva aqui a sua tarefa" value="{{tarefa.descricao}}" required>
+                </div>
+                <button type="submit" class="btn btn-success col">Editar</button>
+            </form>
+
+    </div><!--/Linha-->
+</div>

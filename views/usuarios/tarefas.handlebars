@@ -1,0 +1,85 @@
+<div class="container">
+            <div id="menu" class="collapse navbar-collapse">
+
+                <ul class="navbar-nav mr-auto">
+    
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tarefas.html" class="nav-link">Tarefas</a>
+                    </li>    
+                </ul>
+    
+            </div>
+        </div>
+
+    </nav>
+        {{#each erros}}
+            <div class="container alert alert-danger">{{texto}}</div>
+        {{else}}
+
+        {{/each}}
+        <div class="container"><!--Container-->
+            <div class="row justify-content-center"><!--Linha-->
+
+                    <form action="/usuarios/addTarefa" method="POST" class="col-md-9 border rounded p-3 bg-light mt-5">
+                        <h1 class="text-center">Crie uma nova tarefa</h1>
+                        <hr>
+                        <div class="form-group">
+                            <label for="descricao">Descrição</label>
+                            <input type="text" class="form-control border border-dark rounded" name="descricao" id="descricao" placeholder="Descreva aqui a sua tarefa" required>
+                        </div>
+                        <button type="submit" class="btn btn-success col">Criar</button>
+                    </form>
+
+            </div><!--/Linha-->
+
+            <div class="mt-5">
+                <h1 class="text-center">Tarefas</h1>
+                    <div class="row mb-5 mt-3 justify-content-end">
+                        <h2 class="">{{tarefasPendentes.length}} tarefa(s) pendente(s)</h2>
+                    </div>
+                    <div class="container">
+                        
+                        {{#each tarefas}}
+
+
+                            {{#if feita}}
+                                <div class="row mt-4 justify-content-between"><!--Início Linha da tabela-->
+                                    <div class="col-sm-7 feita">
+                                        <h4 class="text-center">{{descricao}}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <a href="/usuarios/remover/{{_id}}"><i class="far fa-trash-alt text-danger ml-3 fa-2x"></i></a>
+                                    </div>
+                                </div>
+                            <hr><!--Fim Linha da tabela-->
+                            {{else}}
+
+                                <div class="row mt-4 justify-content-between"><!--Início Linha da tabela-->
+                                    <div class="col-sm-7">
+                                        <h4 class="text-center">{{descricao}}</h4>
+                                    </div>
+                                    <div class="col-4">
+                                        <a href="/usuarios/remover/{{_id}}"><i class="far fa-trash-alt text-danger ml-3 fa-2x"></i></a>
+                                    <a href='/usuarios/editar/{{_id}}'><i class="far fa-edit fa-2x text-info ml-3"></i></a>
+                                    <a href="/usuarios/check/{{_id}}"><i class="fas fa-check fa-2x text-success ml-3"></i></a>
+                                    </div>
+                                </div>
+                                <hr><!--Fim Linha da tabela-->
+
+                            {{/if}}
+
+                        {{else}}
+
+                        {{/each}}
+
+
+
+
+                    </div>
+                    
+            </div>
+
+        </div><!--/Container-->

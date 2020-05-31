@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-router.use('/',(req,res)=>{
-    res.send("INDEX");
+router.get('/',(req,res)=>{
+    res.render('index');
 });
-router.use('/login',(req,res)=>{
-    res.send("Login");
+router.get('/login',(req,res)=>{
+    res.render("padroes/login");
 });
-router.use('/register',(req,res)=>{
-    res.send('Register');
+router.get('/register',(req,res)=>{
+    res.render('padroes/register');
 });
 
 module.exports = router;
