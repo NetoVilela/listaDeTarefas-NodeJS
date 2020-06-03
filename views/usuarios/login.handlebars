@@ -1,4 +1,10 @@
-<div class="container mt-5">
+    {{#each erros}}
+        <div class="container alert alert-danger">{{texto}}</div>
+    {{else}}
+
+    {{/each}}
+
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class=" col-md-5 card border border-secondary mt-5 bg-light">
             <div class="card-body">

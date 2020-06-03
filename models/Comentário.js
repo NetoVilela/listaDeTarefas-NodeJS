@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 
-const Usuario = new mongoose.Schema({
-    nome:{
+const Comentario = new mongoose.Schema({
+    texto:{
         type: String,
         required: true
     },
-    email:{
+    autor:{
         type: String,
         required: true
     },
-    senha:{
+    idUsuario:{
         type:String,
         required: true
     }
 });
 
-mongoose.model('usuarios', Usuario);
+mongoose.model("comentarios",Comentario)

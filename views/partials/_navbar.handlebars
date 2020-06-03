@@ -31,9 +31,24 @@
                         </li>       
                     {{/if}}
 
-                    
                 </ul>
     
+            </div>
+
+            <div class="text-white">
+                {{#if user}}
+                        {{#each user}}
+                            {{#if nome}}
+                                {{nome}}
+                            {{else}}
+
+                            {{/if}}
+                        {{else}}
+    
+                        {{/each}}
+                {{else}}
+
+                {{/if}}
             </div>
         </div>
 

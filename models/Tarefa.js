@@ -8,6 +8,9 @@ const Tarefa = new mongoose.Schema({
     feita:{
         type:Boolean,
         default: false
+    },
+    idUsuario:{
+        type:String,
     }
 });
 

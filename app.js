@@ -3,11 +3,13 @@ const app = express();
 const handlebars = require('express-handlebars');
 const tarefaRouter = require('./routes/tarefas');
 const usuarioRouter = require('./routes/usuarios');
+const comentarioRouter =require('./routes/comentarios');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const passport = require('passport');
+// const helpers = require('handlebars-helpers')();
 
 require('./config/auth')(passport);
 
@@ -54,8 +56,8 @@ require('./config/auth')(passport);
 
 //Rotas
     app.use('/',usuarioRouter);
-    app.use('/tarefas',tarefaRouter)
-
+    app.use('/tarefas',tarefaRouter);
+    app.use('/comentarios',comentarioRouter);
 
 app.listen(8081,()=>{
     console.log("Servidor rodando na porta 8081");

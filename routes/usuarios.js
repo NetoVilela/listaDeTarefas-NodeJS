@@ -7,10 +7,16 @@ const passport = require('passport');
 require('../models/Usuario');
 const Usuario = mongoose.model('usuarios');
 
+require('../models/Comentário');
+const Comentario = mongoose.model('comentarios');
 
+//* INÍCIO Listar comentários===========================================================
 router.get('/',(req,res)=>{
-    res.render('index');
-});
+    Comentario.find().lean().then((comentarios)=>{
+        res.render('index',{comentarios: comentarios});
+    });
+});         
+//* FIM Listar comentários===========================================================
 
 //* INÍCIO Registro de Usuários
 router.get('/register',(req,res)=>{

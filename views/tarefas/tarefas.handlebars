@@ -37,9 +37,22 @@
 
             <div class="mt-5">
                 <h1 class="text-center">Tarefas</h1>
-                    <div class="row mb-5 mt-3 justify-content-end">
-                        <h2 class="">{{tarefasPendentes.length}} tarefa(s) pendente(s)</h2>
-                    </div>
+                
+                    {{#if zero}}
+                        <div class="row mb-5 mt-3 justify-content-end ">
+                            <div class="p-2 border border-dark cursor-default rounded bg-light">
+                                <h4>Nenhuma tarefa pendente</h4>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="row mb-5 mt-3 justify-content-end ">
+                            <div class="p-2 border border-dark cursor-default rounded bg-light">
+                                <h4>Tarefas pendentes: {{tarefasPendentes.length}}/{{tarefas.length}}</h4>
+                            </div>
+                        </div>
+
+                    {{/if}}
+
                     <div class="container">
                         
                         {{#each tarefas}}
