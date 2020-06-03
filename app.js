@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const handlebars = require('express-handlebars');
@@ -47,12 +48,12 @@ require('./config/auth')(passport);
 
 //MongoDB / Mongoose
     mongoose.Promise= global.Promise;
-    mongoose.connect('mongodb://localhost/listadetarefas').then(()=>{
+    mongoose.connect(`${process.env.MONGO_URL}`).then(()=>{
         console.log('Conectado ao mongoDB!');
     }).catch((error)=>{
         console.log("Erro ao conectar ao mongoDB.");
     });
-
+    
 
 //Rotas
     app.use('/',usuarioRouter);
