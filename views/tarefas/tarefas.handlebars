@@ -60,25 +60,25 @@
 
                             {{#if feita}}
                                 <div class="row mt-4 justify-content-between"><!--Início Linha da tabela-->
-                                    <div class="col-sm-7 feita">
-                                        <h4 class="text-center">{{descricao}}</h4>
+                                    <div class="col-9 feita">
+                                        <h6 class="text-center">{{descricao}}</h6>
                                     </div>
-                                    <div class="col-4">
-                                        <a href="/tarefas/remover/{{_id}}"><i class="far fa-trash-alt text-danger ml-3 fa-2x"></i></a>
-                                        <i class="fas fa-check fa-2x text-success ml-3"></i>
+                                    <div class="col-3">
+                                        <a href="/tarefas/remover/{{_id}}"><i class="far fa-trash-alt text-danger"></i></a>
+                                        <i class="fas fa-check text-success"></i>
                                     </div>
                                 </div>
                             <hr><!--Fim Linha da tabela-->
                             {{else}}
 
                                 <div class="row mt-4 justify-content-between"><!--Início Linha da tabela-->
-                                    <div class="col-sm-7">
-                                        <h4 class="text-center">{{descricao}}</h4>
+                                    <div class="col-9">
+                                        <h6 class="text-center">{{descricao}}</h6>
                                     </div>
-                                    <div class="col-4">
-                                        <a href="/tarefas/remover/{{_id}}"><i class="far fa-trash-alt text-danger ml-3 fa-2x"></i></a>
-                                    <a href='/tarefas/editar/{{_id}}'><i class="far fa-edit fa-2x text-info ml-3"></i></a>
-                                    <a href="/tarefas/check/{{_id}}"><i class="far fa-check-square fa-2x ml-3 text-success"></i></a>
+                                    <div class="col-3">
+                                        <a href="/tarefas/remover/{{_id}}"><i class="far fa-trash-alt text-danger"></i></a>
+                                    <a href='/tarefas/editar/{{_id}}'><i class="far fa-edit text-info"></i></a>
+                                    <a href="/tarefas/check/{{_id}}"><i class="far fa-check-square text-success"></i></a>
                                     </div>
                                 </div>
                                 <hr><!--Fim Linha da tabela-->
