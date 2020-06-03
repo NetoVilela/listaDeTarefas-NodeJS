@@ -60,6 +60,6 @@ require('./config/auth')(passport);
     app.use('/tarefas',tarefaRouter);
     app.use('/comentarios',comentarioRouter);
 
-app.listen(8081,()=>{
+app.listen(process.env.PORT || 8081,()=>{
     console.log("Servidor rodando na porta 8081");
 })
